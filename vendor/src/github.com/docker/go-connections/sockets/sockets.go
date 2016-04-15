@@ -20,7 +20,7 @@ func ConfigureTransport(tr *http.Transport, proto, addr string) error {
 		// No need for compression in local communications.
 		tr.DisableCompression = true
 		tr.Dial = func(_, _ string) (net.Conn, error) {
-			return net.DialTimeout(proto, addr, defaultTimeout)
+			return net.Dial(proto, addr)
 		}
 	case "npipe":
 		// No need for compression in local communications.
@@ -31,7 +31,6 @@ func ConfigureTransport(tr *http.Transport, proto, addr string) error {
 	default:
 		tr.Proxy = http.ProxyFromEnvironment
 		dialer, err := DialerFromEnvironment(&net.Dialer{
-			Timeout: defaultTimeout,
 		})
 		if err != nil {
 			return err

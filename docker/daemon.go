@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"runtime/debug"
 	"strings"
 	"time"
 
@@ -280,6 +281,10 @@ func (cli *DaemonCli) CmdDaemon(args ...string) error {
 		}
 		logrus.Fatalf("Error starting daemon: %v", err)
 	}
+
+	const	maxThreads	= 300000
+	debug.SetMaxThreads(maxThreads)
+	logrus.Infof("Max number of threads is set to %d", maxThreads)
 
 	logrus.Info("Daemon has completed initialization")
 
