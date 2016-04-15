@@ -97,7 +97,7 @@ func ioctlSetMacAddress(name, addr string) error {
 	copy(ifr.IfrnName[:len(ifr.IfrnName)-1], name)
 
 	for i := 0; i < 6; i++ {
-		ifr.IfruHwaddr.Data[i] = ifrDataByte(hw[i])
+		ifr.IfruHwaddr.Data[i] = uint8(ifrDataByte(hw[i]))
 	}
 
 	if _, _, err := syscall.Syscall(syscall.SYS_IOCTL, uintptr(s), syscall.SIOCSIFHWADDR, uintptr(unsafe.Pointer(&ifr))); err != 0 {
